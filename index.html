@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kelulusan 2026</title>
+
+<style>
+body {
+  font-family: "Times New Roman", serif;
+  text-align: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  margin: 0;
+  color: white;
+}
+
+.header {
+  padding: 25px;
+}
+
+.box {
+  background: white;
+  color: black;
+  width: 350px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #2c5364;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.kartu {
+  margin: 30px auto;
+  width: 400px;
+  background: #fff;
+  color: black;
+  border: 8px double gold;
+  padding: 20px;
+  border-radius: 15px;
+  animation: fadeIn 1s;
+}
+
+.kartu img {
+  width: 120px;
+  border-radius: 10px;
+}
+
+.lulus {
+  color: green;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+  <h1>MI AL HIDAYAH PLELEN</h1>
+  <p>Pengumuman Kelulusan Tahun 2026</p>
+</div>
+
+<div class="box">
+  <h3>Masukkan NISN</h3>
+  <input type="text" id="nisn" placeholder="Contoh: 3138840469">
+  <br>
+  <button onclick="cek()">Cek Kelulusan</button>
+</div>
+
+<div id="hasil"></div>
+
+<!-- MUSIK MENYENTUH -->
+<audio id="musik" loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<!-- confetti -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+const siswa = {
+  "3138840469": {nama:"IKHFANUL SAPUTRA", foto:"1.jpg"},
+  "3133721711": {nama:"INDHIRA MAY NOVI ZULIANTY", foto:"2.jpg"},
+  "0149653962": {nama:"KAUMA SAFIYA SALSABILA RIZKY", foto:"3.jpg"},
+  "3132128542": {nama:"KHAYLA ZAYAN UFAIRA", foto:"4.jpg"},
+  "3142121807": {nama:"LATIFATUL HIKMAH", foto:"5.jpg"},
+  "3145980864": {nama:"MICAYLA RAISYA PUTRI", foto:"6.jpg"},
+  "3149874429": {nama:"MIFTAKHUL JANNAH", foto:"7.jpg"},
+  "3136563204": {nama:"MUHAMMAD DWI PRASETYO", foto:"8.jpg"},
+  "3147581861": {nama:"MUHAMMAD FATIH AADIL AL BARRAA", foto:"9.jpg"},
+  "3142466117": {nama:"MUHAMMAD ILHAM MUNAZAL", foto:"10.jpg"},
+  "3142612994": {nama:"MUHAMMAD VIRZA NUR HIDAYATULLOH", foto:"11.jpg"},
+  "3135389357": {nama:"RAFAEL GALANG SAPUTRA", foto:"12.jpg"},
+  "0146644118": {nama:"TAQIYA AZKATALIA", foto:"13.jpg"},
+  "3144807093": {nama:"TIARA AULIA NISA", foto:"14.jpg"},
+  "3138229405": {nama:"TIRTA NUR ZAMMI", foto:"15.jpg"},
+  "3131510825": {nama:"YAHYA ANDIRJA SUSANTO", foto:"16.jpg"},
+  "3138644160": {nama:"ZAHRA KURNIA", foto:"17.jpg"},
+  "3133735700": {nama:"ZAHWA ISLAH SOFYA", foto:"18.jpg"}
+};
+
+function cek() {
+  let input = document.getElementById("nisn").value;
+  let hasil = document.getElementById("hasil");
+  let musik = document.getElementById("musik");
+
+  if (siswa[input]) {
+    hasil.innerHTML = `
+      <div class="kartu">
+        <h2>SURAT KETERANGAN LULUS</h2>
+        <p>MI Al Hidayah Plelen</p>
+        <hr>
+        <img src="${siswa[input].foto}">
+        <h2>${siswa[input].nama}</h2>
+        <p>NISN: ${input}</p>
+        <p class="lulus">DINYATAKAN LULUS</p>
+        <p>Tahun Pelajaran 2025/2026</p>
+      </div>
+    `;
+
+    // play musik
+    musik.play();
+
+    // confetti
+    confetti({
+      particleCount: 120,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+
+  } else {
+    hasil.innerHTML = `<p style="color:red;">NISN tidak ditemukan</p>`;
+  }
+}
+</script>
+
+</body>
+</html>
