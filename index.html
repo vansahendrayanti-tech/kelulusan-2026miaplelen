@@ -2,73 +2,87 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Kelulusan 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengumuman Kelulusan 2026</title>
+
+<!-- FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
-  font-family: "Times New Roman", serif;
-  text-align: center;
   margin: 0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
   color: white;
+  overflow-x: hidden;
 
-  background-color: #0f2027;
-
-  /* background logo banyak */
+  background: #0f2027;
   background-image: url('logo.png');
   background-repeat: repeat;
   background-size: 120px;
 }
 
-/* overlay biar transparan elegan */
 body::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 32, 39, 0.85);
+  background: rgba(15,32,39,0.85);
+  backdrop-filter: blur(5px);
   z-index: -1;
 }
 
+/* HEADER */
 .header {
-  padding: 25px;
+  padding: 30px;
+  letter-spacing: 2px;
 }
 
+/* BOX INPUT */
 .box {
-  background: white;
-  color: black;
-  width: 350px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  width: 360px;
   margin: auto;
-  padding: 20px;
-  border-radius: 15px;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0,255,255,0.2);
 }
 
 input {
-  padding: 10px;
-  width: 80%;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 12px;
+  width: 85%;
+  border-radius: 12px;
+  border: none;
+  outline: none;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 25px;
+  border-radius: 12px;
   border: none;
-  background: #2c5364;
+  background: linear-gradient(45deg,#00c6ff,#0072ff);
   color: white;
-  border-radius: 10px;
   cursor: pointer;
   margin-top: 10px;
+  transition: 0.3s;
 }
 
+button:hover {
+  transform: scale(1.05);
+}
+
+/* KARTU */
 .kartu {
   margin: 30px auto;
-  width: 400px;
-  background: #fff;
+  width: 420px;
+  background: rgba(255,255,255,0.95);
   color: black;
-  border: 8px double gold;
-  padding: 20px;
-  border-radius: 15px;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  animation: fadeIn 1s;
 }
 
 .kartu img {
@@ -78,11 +92,31 @@ button {
 
 .lulus {
   color: green;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
-</style>
 
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(20px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+/* BALON */
+.balon {
+  position: fixed;
+  bottom: -100px;
+  width: 40px;
+  height: 60px;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: naik linear infinite;
+}
+
+@keyframes naik {
+  from {transform: translateY(0);}
+  to {transform: translateY(-120vh);}
+}
+</style>
 </head>
 
 <body>
@@ -99,10 +133,6 @@ button {
   <button onclick="cek()">Cek Kelulusan</button>
 </div>
 
-<!-- tombol musik manual (WAJIB biar tidak diblok browser) -->
-<br>
-<button onclick="playMusik()">🔊 Aktifkan Musik</button>
-
 <div id="hasil"></div>
 
 <!-- MUSIK -->
@@ -110,6 +140,7 @@ button {
   <source src="musik.mp3" type="audio/mpeg">
 </audio>
 
+<!-- CONFETTI -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
@@ -142,32 +173,62 @@ function cek() {
     hasil.innerHTML = `
       <div class="kartu">
         <h2>SURAT KETERANGAN LULUS</h2>
-        <p>MI Al Hidayah Plelen</p>
-        <hr>
         <img src="${siswa[input].foto}">
         <h2>${siswa[input].nama}</h2>
         <p>NISN: ${input}</p>
-        <p class="lulus">DINYATAKAN LULUS</p>
+        <p class="lulus">🎉 DINYATAKAN LULUS 🎉</p>
         <p>Tahun Pelajaran 2025/2026</p>
       </div>
     `;
 
     confetti({
-      particleCount: 120,
-      spread: 70,
+      particleCount: 150,
+      spread: 80,
       origin: { y: 0.6 }
     });
-
   } else {
     hasil.innerHTML = `<p style="color:red;">NISN tidak ditemukan</p>`;
   }
 }
 
-// tombol musik manual (SOLUSI PALING AMAN)
-function playMusik() {
-  let musik = document.getElementById("musik");
-  musik.play();
+/* MUSIK AUTO HALUS */
+let started = false;
+
+document.addEventListener("click", () => {
+  if (!started) {
+    let musik = document.getElementById("musik");
+    musik.volume = 0;
+    musik.play();
+
+    let fade = setInterval(() => {
+      if (musik.volume < 1) {
+        musik.volume += 0.05;
+      } else {
+        clearInterval(fade);
+      }
+    }, 200);
+
+    started = true;
+  }
+});
+
+/* BALON CINEMATIC */
+function buatBalon() {
+  let balon = document.createElement("div");
+  balon.className = "balon";
+
+  let warna = ["#ff4d4d","#4da6ff","#ffff66","#66ff99","#ff66cc"];
+  balon.style.background = warna[Math.floor(Math.random()*warna.length)];
+
+  balon.style.left = Math.random()*100 + "vw";
+  balon.style.animationDuration = (6 + Math.random()*6) + "s";
+
+  document.body.appendChild(balon);
+
+  setTimeout(()=>balon.remove(),12000);
 }
+
+setInterval(buatBalon, 600);
 </script>
 
 </body>
