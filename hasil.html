@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hasil Kelulusan</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  color: black;
+
+  background-color: white;
+  background-image: url('logo.png');
+  background-repeat: repeat;
+  background-size: 120px;
+}
+
+/* CARD */
+.kartu {
+  max-width: 420px;
+  margin: 50px auto;
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: fadeIn 1s;
+}
+
+.kartu img {
+  width: 130px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.judul {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.lulus {
+  color: green;
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ANIMASI */
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(30px);}
+  to {opacity:1; transform: translateY(0);}
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .kartu {
+    width: 90%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="hasil"></div>
+
+<!-- MUSIK -->
+<audio id="musik" autoplay loop>
+  <source src="musik.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const siswa = {
+  "3138840469": {nama:"IKHFANUL SAPUTRA", foto:"1.jpg"},
+  "3133721711": {nama:"INDHIRA MAY NOVI ZULIANTY", foto:"2.jpg"},
+  "0149653962": {nama:"KAUMA SAFIYA SALSABILA RIZKY", foto:"3.jpg"},
+  "3132128542": {nama:"KHAYLA ZAYAN UFAIRA", foto:"4.jpg"},
+  "3142121807": {nama:"LATIFATUL HIKMAH", foto:"5.jpg"},
+  "3145980864": {nama:"MICAYLA RAISYA PUTRI", foto:"6.jpg"},
+  "3149874429": {nama:"MIFTAKHUL JANNAH", foto:"7.jpg"},
+  "3136563204": {nama:"MUHAMMAD DWI PRASETYO", foto:"8.jpg"},
+  "3147581861": {nama:"MUHAMMAD FATIH AADIL AL BARRAA", foto:"9.jpg"},
+  "3142466117": {nama:"MUHAMMAD ILHAM MUNAZAL", foto:"10.jpg"},
+  "3142612994": {nama:"MUHAMMAD VIRZA NUR HIDAYATULLOH", foto:"11.jpg"},
+  "3135389357": {nama:"RAFAEL GALANG SAPUTRA", foto:"12.jpg"},
+  "0146644118": {nama:"TAQIYA AZKATALIA", foto:"13.jpg"},
+  "3144807093": {nama:"TIARA AULIA NISA", foto:"14.jpg"},
+  "3138229405": {nama:"TIRTA NUR ZAMMI", foto:"15.jpg"},
+  "3131510825": {nama:"YAHYA ANDIRJA SUSANTO", foto:"16.jpg"},
+  "3138644160": {nama:"ZAHRA KURNIA", foto:"17.jpg"},
+  "3133735700": {nama:"ZAHWA ISLAH SOFYA", foto:"18.jpg"}
+};
+
+/* AMBIL NISN DARI URL */
+let url = new URLSearchParams(window.location.search);
+let nisn = url.get("nisn");
+
+let hasil = document.getElementById("hasil");
+
+if (siswa[nisn]) {
+  hasil.innerHTML = `
+    <div class="kartu">
+      <div class="judul">SURAT KETERANGAN LULUS</div>
+      <p>MI Al Hidayah Plelen</p>
+      <hr>
+      <img src="${siswa[nisn].foto}">
+      <h2>${siswa[nisn].nama}</h2>
+      <p>NISN: ${nisn}</p>
+      <div class="lulus">🎉 DINYATAKAN LULUS 🎉</div>
+      <p>Tahun Pelajaran 2025/2026</p>
+    </div>
+  `;
+} else {
+  hasil.innerHTML = "<h2 style='color:red;'>Data tidak ditemukan</h2>";
+}
+
+/* PAKSA PLAY MUSIK */
+document.body.addEventListener("click", function(){
+  document.getElementById("musik").play();
+});
+</script>
+
+</body>
+</html>
