@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pengumuman Kelulusan</title>
+<title>Kelulusan 2026</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body {
+body{
   margin:0;
   font-family:'Poppins', sans-serif;
   text-align:center;
-  color:#222;
+  padding:20px;
 
   background:white;
   background-image:url('logo.png');
@@ -20,30 +20,42 @@ body {
   background-size:150px;
 }
 
-/* HEADER */
-.header {
-  padding:30px;
+/* JUDUL GAMBAR */
+.judul{
+  width:90%;
+  max-width:500px;
+  display:block;
+  margin:20px auto;
+
+  animation:glow 2s infinite alternate;
 }
 
-/* BOX */
-.box {
+@keyframes glow{
+  from{filter: drop-shadow(0 0 5px #fff);}
+  to{filter: drop-shadow(0 0 20px #00ffcc);}
+}
+
+/* BOX INPUT */
+.box{
   background:rgba(255,255,255,0.95);
-  max-width:400px;
-  width:90%;
-  margin:auto;
+  max-width:320px;
+  width:100%;
+  margin:30px auto;
   padding:25px;
   border-radius:20px;
   box-shadow:0 10px 30px rgba(0,0,0,0.2);
+
+  transition:0.5s;
 }
 
-input {
+input{
   padding:12px;
   width:90%;
   border-radius:10px;
   border:1px solid #ccc;
 }
 
-button {
+button{
   padding:12px;
   width:90%;
   border:none;
@@ -54,62 +66,130 @@ button {
   cursor:pointer;
 }
 
-button:hover {
+button:hover{
   background:#005ad1;
 }
 
+/* KARTU HASIL */
+.kartu{
+  max-width:340px;
+  width:100%;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 10px 40px rgba(0,0,0,0.3);
+
+  animation:fadeIn 1s;
+}
+
+.kartu img{
+  width:120px;
+  border-radius:10px;
+}
+
+.lulus{
+  color:green;
+  font-weight:bold;
+  font-size:20px;
+}
+
+/* ANIMASI */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(30px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
 /* RESPONSIVE */
-@media (max-width:600px){
-  .header h1{font-size:20px;}
-  .header p{font-size:14px;}
+@media(max-width:600px){
+  body{padding:15px;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-  <h1>MI AL HIDAYAH PLELEN</h1>
-  <p>Pengumuman Kelulusan 2026</p>
-</div>
+<!-- JUDUL -->
+<img src="judul.png" class="judul">
 
-<div class="box">
+<!-- FORM -->
+<div class="box" id="formBox">
   <h3>Masukkan NISN</h3>
   <input type="text" id="nisn" placeholder="Contoh: 3138840469">
   <br>
-  <button onclick="go()">Cek Kelulusan</button>
+  <button onclick="cek()">Cek Kelulusan</button>
 </div>
 
+<!-- HASIL -->
+<div id="hasil"></div>
+
+<!-- MUSIK -->
 <audio id="musik" loop>
   <source src="musik.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-function go(){
-  let nisn = document.getElementById("nisn").value;
-  window.location.href = "hasil.html?nisn=" + nisn;
-}
+const siswa={
+"3138840469":{nama:"IKHFANUL SAPUTRA",foto:"1.jpg"},
+"3133721711":{nama:"INDHIRA MAY NOVI ZULIANTY",foto:"2.jpg"},
+"0149653962":{nama:"KAUMA SAFIYA SALSABILA RIZKY",foto:"3.jpg"},
+"3132128542":{nama:"KHAYLA ZAYAN UFAIRA",foto:"4.jpg"},
+"3142121807":{nama:"LATIFATUL HIKMAH",foto:"5.jpg"},
+"3145980864":{nama:"MICAYLA RAISYA PUTRI",foto:"6.jpg"},
+"3149874429":{nama:"MIFTAKHUL JANNAH",foto:"7.jpg"},
+"3136563204":{nama:"MUHAMMAD DWI PRASETYO",foto:"8.jpg"},
+"3147581861":{nama:"MUHAMMAD FATIH AADIL AL BARRAA",foto:"9.jpg"},
+"3142466117":{nama:"MUHAMMAD ILHAM MUNAZAL",foto:"10.jpg"},
+"3142612994":{nama:"MUHAMMAD VIRZA NUR HIDAYATULLOH",foto:"11.jpg"},
+"3135389357":{nama:"RAFAEL GALANG SAPUTRA",foto:"12.jpg"},
+"0146644118":{nama:"TAQIYA AZKATALIA",foto:"13.jpg"},
+"3144807093":{nama:"TIARA AULIA NISA",foto:"14.jpg"},
+"3138229405":{nama:"TIRTA NUR ZAMMI",foto:"15.jpg"},
+"3131510825":{nama:"YAHYA ANDIRJA SUSANTO",foto:"16.jpg"},
+"3138644160":{nama:"ZAHRA KURNIA",foto:"17.jpg"},
+"3133735700":{nama:"ZAHWA ISLAH SOFYA",foto:"18.jpg"}
+};
 
-/* AUTO MUSIK HALUS */
+/* MUSIK AUTO */
 let started=false;
-
 document.addEventListener("click",()=>{
   if(!started){
-    let musik=document.getElementById("musik");
-    musik.volume=0;
-    musik.play();
+    let m=document.getElementById("musik");
+    m.volume=0;
+    m.play();
 
     let fade=setInterval(()=>{
-      if(musik.volume<1){
-        musik.volume+=0.05;
-      }else{
-        clearInterval(fade);
-      }
+      if(m.volume<1){m.volume+=0.05;}
+      else{clearInterval(fade);}
     },200);
 
     started=true;
   }
 });
+
+/* CEK DATA */
+function cek(){
+  let nisn=document.getElementById("nisn").value;
+  let data=siswa[nisn];
+
+  if(data){
+    document.getElementById("formBox").style.display="none";
+
+    document.getElementById("hasil").innerHTML=`
+    <div class="kartu">
+      <h2>SURAT KETERANGAN LULUS</h2>
+      <p>MI Al Hidayah Plelen</p>
+      <hr>
+      <img src="${data.foto}">
+      <h2>${data.nama}</h2>
+      <p>NISN: ${nisn}</p>
+      <p class="lulus">🎉 DINYATAKAN LULUS 🎉</p>
+      <p>Tahun Pelajaran 2025/2026</p>
+    </div>`;
+  }else{
+    alert("Data tidak ditemukan!");
+  }
+}
 </script>
 
 </body>
