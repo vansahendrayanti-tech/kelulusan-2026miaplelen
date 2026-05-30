@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pengumuman Kelulusan</title>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial;
+    text-align:center;
+    background:#000;
+    color:white;
+}
+
+/* SEMUA HALAMAN */
+.page {
+    display:none;
+}
+
+/* AKTIF */
+.active {
+    display:block;
+    animation:fade 0.7s;
+}
+
+@keyframes fade {
+    from {opacity:0; transform:translateY(40px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+/* GAMBAR */
+img {
+    width:95%;
+    max-width:380px;
+    margin-top:20px;
+    border-radius:12px;
+}
+
+/* TOMBOL */
+button {
+    padding:12px 25px;
+    border:none;
+    background:#16a34a;
+    color:white;
+    border-radius:10px;
+    margin-top:15px;
+    font-size:16px;
+}
+
+/* FORM */
+input {
+    padding:12px;
+    width:80%;
+    border-radius:10px;
+    border:none;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIK -->
+<audio id="musik" src="musik.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
+    <img src="sambutan1.png">
+    <br>
+    <button onclick="nextPage(2)">Lanjut</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+    <img src="sambutan2.png">
+    <br>
+    <button onclick="nextPage(3)">Lanjut</button>
+</div>
+
+<!-- PAGE 3 (FORM) -->
+<div id="page3" class="page">
+    <h2>CEK KELULUSAN</h2>
+    <input type="text" id="nisn" placeholder="Masukkan NISN">
+    <br>
+    <button onclick="cek()">CEK</button>
+</div>
+
+<!-- HASIL -->
+<div id="page4" class="page"></div>
+
+<script>
+
+/* DATA */
+const data = [
+{nisn:"3138840469", img:"1.png"},
+{nisn:"3133721711", img:"2.png"},
+{nisn:"0149653962", img:"3.png"},
+{nisn:"3132128542", img:"4.png"},
+{nisn:"3142121807", img:"5.png"},
+{nisn:"3145980864", img:"6.png"},
+{nisn:"3149874429", img:"7.png"},
+{nisn:"3136563204", img:"8.png"},
+{nisn:"3147581861", img:"9.png"},
+{nisn:"3142466117", img:"10.png"},
+{nisn:"3142612994", img:"11.png"},
+{nisn:"3135389357", img:"12.png"},
+{nisn:"0146644118", img:"13.png"},
+{nisn:"3144807093", img:"14.png"},
+{nisn:"3138229405", img:"15.png"},
+{nisn:"3131510825", img:"16.png"},
+{nisn:"3138644160", img:"17.png"},
+{nisn:"3133735700", img:"18.png"}
+];
+
+/* MUSIK */
+let musikMulai = false;
+
+function playMusik(){
+    let audio = document.getElementById("musik");
+    if(!musikMulai){
+        audio.play().catch(()=>{});
+        musikMulai = true;
+    }
+}
+
+/* PINDAH HALAMAN */
+function nextPage(n){
+
+    playMusik();
+
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+    document.getElementById("page"+n).classList.add("active");
+}
+
+/* CEK NISN */
+function cek(){
+
+    playMusik();
+
+    let nisn = document.getElementById("nisn").value.trim();
+    let siswa = data.find(d => d.nisn === nisn);
+
+    if(!siswa){
+        alert("NISN tidak ditemukan");
+        return;
+    }
+
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+
+    let hasil = document.getElementById("page4");
+    hasil.innerHTML = `<img src="${siswa.img}">`;
+    hasil.classList.add("active");
+}
+
+</script>
+
+</body>
+</html>
